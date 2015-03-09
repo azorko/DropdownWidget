@@ -1,3 +1,57 @@
 .display-none {
 	display: none;
 }
+
+.title {
+	cursor: pointer;
+	color: #999; /*grey*/
+	border: 1px solid #999;
+	background: -webkit-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	padding: 5px;
+	width: 340px;
+	font-family: sans-serif;
+	font-size: 13px;
+}
+
+.container-no-display .container{
+	display: none;
+}
+
+.container {
+	margin-top: -1px;
+	color: #999; /*grey*/
+	border: 1px solid #999;
+	padding: 5px;
+	width: 340px;
+	font-family: sans-serif;
+	font-size: 13px;
+}
+
+input {
+	width: 334px;
+}
+
+ul {
+	margin: 5px 0 0 0;
+	position: relative;
+	height: auto;
+	max-height: 90px;
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+li {
+	position: relative;
+	left: -40px;
+	list-style: none;
+	cursor: pointer;
+	text-align: left;
+	padding: 5px;
+}
+
+li:hover {
+	background-color: blue;
+	color: white;
+	font-weight: bold;
+	width: 330px;
+}

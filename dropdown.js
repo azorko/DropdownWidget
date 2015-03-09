@@ -11,13 +11,16 @@
 	};
 	
 	Widget.prototype.createSelectElement = function (selections) {
-		var frag = rootObj.document.createDocumentFragment();
+		this.el.classList.add("container-no-display");
+		var container = rootObj.document.createElement("div");
+		container.classList.add("container");
 		var input = rootObj.document.createElement("input");
 		var list = rootObj.document.createElement("ul");
+		list.addEventListener("click", this.updateSelection.bind(this));
 		var item;
 		
 		input.addEventListener("keyup", this.updateDropdown.bind(this));
-		frag.appendChild(input);
+		container.appendChild(input);
 		
 		selections.forEach( function (selection) {
 			item = rootObj.document.createElement("li");
@@ -25,8 +28,8 @@
 			list.appendChild(item);
 		});
 		
-		frag.appendChild(list);
-		this.el.appendChild(frag);
+		container.appendChild(list);
+		this.el.appendChild(container);
 	};
 	
 	function createSelectionsHash(selections) {
@@ -43,14 +46,21 @@
 	Widget.prototype.setMatches = function (query) {
 		var that = this;
 		Object.keys(this.selectionsHash).forEach( function (key) {
-			that.selectionsHash[key] = (key.search(RegExp(query)) === -1 ? false : true);
+			that.selectionsHash[key] = (key.search(RegExp(query, "i")) === -1 ? false : true);
 		});
 	};
 	
 	Widget.prototype.setupOptions = function (options) {
 		var title = rootObj.document.createElement("div");
+		title.classList.add("title");
 		title.innerText = (options.title ? options.title : "Please Choose");
+		title.addEventListener("click", this.toggleContainer.bind(this));
 		this.el.appendChild(title);
+	};
+	
+	//if list was visible, make it invisible, and other way around
+	Widget.prototype.toggleContainer = function () {
+		this.el.classList.toggle("container-no-display");
 	};
 	
 	Widget.prototype.updateDropdown = function (event) {
@@ -61,14 +71,17 @@
 		
 		this.setMatches(query);
 		
-		debugger
 	  for (i = 0; i < len; i++) {
 			item = children[i];
 			//if item matches query
 			that.selectionsHash[item.innerText] ? item.classList.remove("display-none") : item.classList.add("display-none");
 		}
 		
-		this.el.replaceChild(listClone, list);
+		this.el.querySelector(".container").replaceChild(listClone, list);
+	};
+	
+	Widget.prototype.updateSelection = function (event) {
+		this.el.querySelector(".title").innerText = event.target.innerText;
 	};
 	
 })(this);
